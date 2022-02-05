@@ -1,6 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/cage-Sheet.png" type="Texture" id=1]
+[ext_resource path="res://src/player/cage/Cage.gd" type="Script" id=2]
+[ext_resource path="res://src/core/StateMachine.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/player/cage/state/Grabbed.gd" type="Script" id=4]
+[ext_resource path="res://src/player/cage/state/Released.gd" type="Script" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8.5 )
@@ -8,7 +12,55 @@ extents = Vector2( 8, 8.5 )
 [sub_resource type="CircleShape2D" id=2]
 radius = 19.0
 
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "grabbed"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "released"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4 ]
+}
+
 [node name="Cage" type="RigidBody2D"]
+script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -10 )
@@ -26,3 +78,19 @@ position = Vector2( 0, -9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea"]
 shape = SubResource( 2 )
+
+[node name="StateMachine" parent="." instance=ExtResource( 3 )]
+initial_state = NodePath("Released")
+
+[node name="Released" type="Node" parent="StateMachine"]
+script = ExtResource( 5 )
+
+[node name="Grabbed" type="Node" parent="StateMachine"]
+script = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 4 )
+anims/grabbed = SubResource( 3 )
+anims/released = SubResource( 5 )
+
+[connection signal="body_entered" from="GrabArea" to="StateMachine/Released" method="_on_GrabArea_body_entered"]

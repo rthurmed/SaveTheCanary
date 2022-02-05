@@ -246,6 +246,9 @@ texture = ExtResource( 1 )
 hframes = 4
 vframes = 2
 
+[node name="CagePosition" type="Position2D" parent="VisualInstance/Head"]
+position = Vector2( 0, -7 )
+
 [node name="WallRaycast" parent="VisualInstance" instance=ExtResource( 8 )]
 position = Vector2( 0, -10 )
 
@@ -273,9 +276,6 @@ anims/jump = SubResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -7 )
 shape = SubResource( 6 )
-
-[node name="CagePosition" type="Position2D" parent="."]
-position = Vector2( 0, -17 )
 
 [node name="GroundMultiRaycast" parent="." instance=ExtResource( 8 )]
 
