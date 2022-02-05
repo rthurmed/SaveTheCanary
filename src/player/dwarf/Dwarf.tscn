@@ -292,7 +292,7 @@ enabled = true
 cast_to = Vector2( 0, 3 )
 
 [node name="StateMachine" parent="." instance=ExtResource( 3 )]
-initial_state = NodePath("Idle")
+initial_state = NodePath("Air")
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource( 5 )
@@ -300,7 +300,12 @@ script = ExtResource( 5 )
 [node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
 
+[node name="MinJumpTime" type="Timer" parent="StateMachine/Jump"]
+wait_time = 0.2
+one_shot = true
+
 [node name="MaxHoldTime" type="Timer" parent="StateMachine/Jump"]
+wait_time = 1.6
 one_shot = true
 
 [node name="Air" type="Node" parent="StateMachine"]
@@ -310,5 +315,6 @@ script = ExtResource( 7 )
 wait_time = 0.3
 one_shot = true
 
+[connection signal="timeout" from="StateMachine/Jump/MinJumpTime" to="StateMachine/Jump" method="_on_MinJumpTime_timeout"]
 [connection signal="timeout" from="StateMachine/Jump/MaxHoldTime" to="StateMachine/Jump" method="_on_MaxHoldTime_timeout"]
 [connection signal="timeout" from="StateMachine/Air/Delay" to="StateMachine/Air" method="_on_Delay_timeout"]

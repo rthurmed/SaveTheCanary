@@ -14,7 +14,7 @@ func process(_delta: float):
 		player.visual_instance.scale.x = -1 if player.facing.x < 0 else 1
 	
 	if player.is_touching_ground() and delay.is_stopped():
-		transition("Idle")
+		transition("Jump")
 
 
 func physics_process(_delta: float): pass
