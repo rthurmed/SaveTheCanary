@@ -14,6 +14,11 @@ func handle_input(_event: InputEvent): pass
 func process(_delta: float):
 	if Input.is_action_just_released("jump"):
 		transition("Air")
+	
+	if Input.is_action_just_pressed("jump"):
+		player.animation.seek(0)
+		max_hold_time.start(0)
+		min_jump_time.start(0)
 
 
 func physics_process(_delta: float): pass
