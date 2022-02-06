@@ -13,13 +13,13 @@ func process(delta: float):
 	cage.global_transform.origin = lerp(
 		cage.global_transform.origin,
 		target.global_position,
-		delta * 32
+		delta * 24
 	)
 	
 	cage.global_rotation = lerp(
 		cage.global_rotation,
 		0,
-		delta * 32
+		delta * 24
 	)
 	
 	if Input.is_action_just_pressed("drop"):
