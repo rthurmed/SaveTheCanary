@@ -19,4 +19,4 @@ func _on_Ending_body_entered(body):
 
 
 func go_to_ending_scene():
-	pass
+	var _ok = get_tree().change_scene("res://src/YouWin.tscn")
