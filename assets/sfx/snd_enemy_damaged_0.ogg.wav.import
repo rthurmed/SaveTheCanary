@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_enemy_damaged_0.ogg.wav-2da18f7a789a026d8909260c99c4161b.sample"
+
+[deps]
+
+source_file="res://assets/sfx/snd_enemy_damaged_0.ogg.wav"
+dest_files=[ "res://.import/snd_enemy_damaged_0.ogg.wav-2da18f7a789a026d8909260c99c4161b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

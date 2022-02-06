@@ -9,6 +9,7 @@ onready var visual_instance = $VisualInstance
 onready var wall_raycast = $VisualInstance/WallRaycast
 onready var ground_raycast = $GroundMultiRaycast
 onready var cage_position = $VisualInstance/Head/CagePosition
+onready var sfx_damage = $Sound/Damage
 
 var facing = Vector2.RIGHT
 
@@ -31,5 +32,6 @@ func is_touching_wall():
 
 
 func knockback(power: Vector2):
+	sfx_damage.play()
 	linear_velocity = power
 	emit_signal("attacked")

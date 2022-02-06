@@ -7,6 +7,7 @@ onready var player: Dwarf = owner
 onready var max_hold_time: Timer = $MaxHoldTime
 onready var min_jump_time: Timer = $MinJumpTime
 onready var jump_meter: ProgressBar = get_node("../../UI/JumpMeter")
+onready var sfx_jump: AudioStreamPlayer = get_node("../../Sound/Jump")
 
 
 func handle_input(_event: InputEvent): pass
@@ -42,6 +43,8 @@ func exit():
 	var direction = Vector2.UP + player.facing
 	
 	player.apply_central_impulse(direction * power)
+	
+	sfx_jump.play()
 	
 	max_hold_time.stop()
 	min_jump_time.stop()
