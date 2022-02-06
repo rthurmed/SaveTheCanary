@@ -2,15 +2,17 @@ class_name Bat
 extends Area2D
 
 
-const SPEED = .8
+const SPEED = 1.2
 const KNOCKBACK = 120
 const MAX_DISTANCE_V = 100
+
+export var kill = false
 
 onready var player: Dwarf = get_tree().get_nodes_in_group("player").pop_front()
 onready var animation: AnimationPlayer = $AnimationPlayer
 onready var seek_raycast: RayCast2D = $SeekRaycast
 
-export var kill = false
+var found_player = null
 
 
 func _ready():
@@ -21,24 +23,26 @@ func _process(delta):
 	if kill:
 		queue_free()
 	
-	var target = to_local(player.global_position)
-	target.y = clamp(target.y, -MAX_DISTANCE_V, MAX_DISTANCE_V)
-	seek_raycast.set_cast_to(target)
-	
-	if (
-		not seek_raycast.enabled or
-		not seek_raycast.is_colliding()
-	):
-		return
+	var curr_target = to_local(player.global_position)
+	curr_target.y = clamp(curr_target.y, -MAX_DISTANCE_V, MAX_DISTANCE_V)
+	seek_raycast.set_cast_to(curr_target)
 	
 	var collider = seek_raycast.get_collider()
 	
-	if collider.name == player.name:
-		global_position = lerp(
-			global_position,
-			player.global_position,
-			delta * SPEED
-		)
+	if seek_raycast.is_colliding() and not found_player:
+		found_player = collider.name == player.name
+	
+	if (
+		not seek_raycast.enabled or
+		not found_player
+	):
+		return
+	
+	global_position = lerp(
+		global_position,
+		player.global_position,
+		delta * SPEED
+	)
 
 
 func _on_Bat_body_entered(body):
