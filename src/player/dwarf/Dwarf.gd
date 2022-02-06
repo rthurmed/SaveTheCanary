@@ -13,6 +13,15 @@ onready var cage_position = $VisualInstance/Head/CagePosition
 var facing = Vector2.RIGHT
 
 
+func _process(_delta):
+	if not OS.is_debug_build():
+		return
+	if Input.is_action_pressed("debug_up"):
+		global_position.y -= 16
+	if Input.is_action_pressed("debug_down"):
+		global_position.y += 16
+
+
 func is_touching_ground():
 	return ground_raycast.is_colliding()
 
