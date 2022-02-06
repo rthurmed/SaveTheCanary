@@ -59,7 +59,7 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4 ]
 }
 
-[node name="Cage" type="RigidBody2D"]
+[node name="Cage" type="RigidBody2D" groups=["cage"]]
 collision_layer = 4
 script = ExtResource( 2 )
 

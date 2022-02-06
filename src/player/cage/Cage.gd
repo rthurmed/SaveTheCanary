@@ -12,5 +12,9 @@ func _ready():
 	var _ok = player.connect("attacked", self, "_on_Player_attacked")
 
 
+func is_grabbed():
+	return state_machine.state.name == "Grabbed"
+
+
 func _on_Player_attacked():
 	state_machine.transition("Released")

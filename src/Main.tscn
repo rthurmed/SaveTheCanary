@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/player/dwarf/Dwarf.tscn" type="PackedScene" id=2]
@@ -6,10 +6,60 @@
 [ext_resource path="res://assets/tileset_bridges.tres" type="TileSet" id=4]
 [ext_resource path="res://src/npc/enemy/bat/Bat.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/npc/enemy/cannon/Cannon.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/door-Sheet.png" type="Texture" id=7]
+[ext_resource path="res://src/Ending.gd" type="Script" id=8]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 22.0
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Door:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "finish"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Door:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "go_to_ending_scene"
+} ]
+}
 
 [node name="Main" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
+z_index = -1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 show_collision = true
@@ -30,11 +80,12 @@ tile_data = PoolIntArray( -3604479, 8, 0, -3604478, 8, 0, -3604477, 8, 0, -36044
 position = Vector2( 41, 64 )
 
 [node name="Dwarf" parent="PlayerStartPosition" instance=ExtResource( 2 )]
-position = Vector2( 3, -735 )
+position = Vector2( -10, -900 )
 
 [node name="Camera2D" type="Camera2D" parent="PlayerStartPosition/Dwarf"]
 current = true
 limit_left = 0
+limit_top = -1024
 limit_right = 256
 limit_bottom = 240
 limit_smoothed = true
@@ -74,7 +125,7 @@ position = Vector2( 165, -741 )
 position = Vector2( 60, -926 )
 
 [node name="Bat9" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 121, -953 )
+position = Vector2( 228, -964 )
 
 [node name="Bat10" parent="Enemies" instance=ExtResource( 5 )]
 position = Vector2( 185, -927 )
@@ -91,3 +142,23 @@ position = Vector2( 113, -784 )
 [node name="Cannon4" parent="Enemies" instance=ExtResource( 6 )]
 position = Vector2( 143, -784 )
 scale = Vector2( -1, 1 )
+
+[node name="Ending" type="Area2D" parent="."]
+position = Vector2( 128, -896 )
+z_index = -1
+script = ExtResource( 8 )
+
+[node name="Door" type="Sprite" parent="Ending"]
+position = Vector2( 0, -16 )
+texture = ExtResource( 7 )
+hframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ending"]
+position = Vector2( 0, -11 )
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ending"]
+anims/RESET = SubResource( 3 )
+anims/finish = SubResource( 2 )
+
+[connection signal="body_entered" from="Ending" to="Ending" method="_on_Ending_body_entered"]
