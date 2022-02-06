@@ -274,16 +274,19 @@ position = Vector2( 0, -10 )
 position = Vector2( 4, -1 )
 enabled = true
 cast_to = Vector2( 3, 0 )
+collision_mask = 256
 
 [node name="RayCast2D2" type="RayCast2D" parent="VisualInstance/WallRaycast"]
 position = Vector2( 4, 3 )
 enabled = true
 cast_to = Vector2( 3, 0 )
+collision_mask = 256
 
 [node name="RayCast2D3" type="RayCast2D" parent="VisualInstance/WallRaycast"]
 position = Vector2( 4, 7 )
 enabled = true
 cast_to = Vector2( 3, 0 )
+collision_mask = 256
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )
