@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/dwarf-head-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://assets/dwarf-body-Sheet.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://src/player/dwarf/state/Jump.gd" type="Script" id=6]
 [ext_resource path="res://src/player/dwarf/state/Air.gd" type="Script" id=7]
 [ext_resource path="res://src/util/MultiRaycast.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/player/dwarf/state/Wait.gd" type="Script" id=9]
 
 [sub_resource type="PhysicsMaterial" id=7]
 friction = 0.9
@@ -301,6 +302,13 @@ initial_state = NodePath("Air")
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource( 5 )
 
+[node name="Wait" type="Node" parent="StateMachine"]
+script = ExtResource( 9 )
+
+[node name="Delay" type="Timer" parent="StateMachine/Wait"]
+wait_time = 0.4
+one_shot = true
+
 [node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
 
@@ -319,6 +327,7 @@ script = ExtResource( 7 )
 wait_time = 0.3
 one_shot = true
 
+[connection signal="timeout" from="StateMachine/Wait/Delay" to="StateMachine/Wait" method="_on_Delay_timeout"]
 [connection signal="timeout" from="StateMachine/Jump/MinJumpTime" to="StateMachine/Jump" method="_on_MinJumpTime_timeout"]
 [connection signal="timeout" from="StateMachine/Jump/MaxHoldTime" to="StateMachine/Jump" method="_on_MaxHoldTime_timeout"]
 [connection signal="timeout" from="StateMachine/Air/Delay" to="StateMachine/Air" method="_on_Delay_timeout"]

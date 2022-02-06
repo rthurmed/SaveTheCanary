@@ -9,19 +9,15 @@ func handle_input(_event: InputEvent): pass
 
 
 func process(_delta: float):
-	if player.is_touching_wall():
-		player.facing.x = player.facing.x * -1
-		player.visual_instance.scale.x = -1 if player.facing.x < 0 else 1
-	
-	if player.is_touching_ground() and delay.is_stopped():
-		transition("Wait")
+	if Input.is_action_just_pressed("jump"):
+		transition("Jump")
 
 
 func physics_process(_delta: float): pass
 
 
 func enter():
-	player.animation.play("air")
+	player.animation.play("RESET")
 	delay.start()
 
 
@@ -30,4 +26,5 @@ func exit():
 
 
 func _on_Delay_timeout():
-	pass # Replace with function body.
+	if not active(): return
+	transition("Jump")
