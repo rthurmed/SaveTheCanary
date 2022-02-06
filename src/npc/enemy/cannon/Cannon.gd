@@ -5,13 +5,17 @@ const KNOCKBACK = 180
 const BALL_SPEED = 100
 const CannonBall = preload("res://src/npc/enemy/cannon/CannonBall.tscn")
 
+export (float, 0.06, 2) var delay: float = 0.06
+
 onready var player: Dwarf = get_tree().get_nodes_in_group("player").pop_front()
 onready var animation: AnimationPlayer = $AnimationPlayer
 onready var cannon_ball_exit = $CannonBallExit
+onready var delay_timer: Timer = $Delay
 
 
 func _ready():
-	animation.play("shoot")
+	delay_timer.wait_time = delay
+	delay_timer.start()
 
 
 func shoot():
@@ -26,3 +30,7 @@ func _on_Cannon_body_entered(body):
 		var angle = (player.global_position - global_position).normalized()
 		player.knockback(angle * KNOCKBACK)
 		animation.play("die")
+
+
+func _on_Delay_timeout():
+	animation.play("shoot")
