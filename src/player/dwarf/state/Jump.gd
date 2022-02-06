@@ -13,7 +13,10 @@ func handle_input(_event: InputEvent): pass
 
 
 func process(_delta: float):
-	if Input.is_action_just_released("jump"):
+	if (
+		Input.is_action_just_released("jump") or 
+		not player.is_touching_ground()
+	):
 		transition("Air")
 	
 	if Input.is_action_just_pressed("jump"):

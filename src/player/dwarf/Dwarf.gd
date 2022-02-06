@@ -2,6 +2,8 @@ class_name Dwarf
 extends RigidBody2D
 
 
+signal attacked
+
 onready var animation: AnimationPlayer = $AnimationPlayer
 onready var visual_instance = $VisualInstance
 onready var wall_raycast = $VisualInstance/WallRaycast
@@ -18,3 +20,7 @@ func is_touching_ground():
 func is_touching_wall():
 	return wall_raycast.is_colliding()
 
+
+func knockback(power: Vector2):
+	linear_velocity = power
+	emit_signal("attacked")
