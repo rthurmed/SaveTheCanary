@@ -6,6 +6,7 @@ const JUMP_MAX_POWER = 240
 onready var player: Dwarf = owner
 onready var max_hold_time: Timer = $MaxHoldTime
 onready var min_jump_time: Timer = $MinJumpTime
+onready var jump_meter: ProgressBar = get_node("../../UI/JumpMeter")
 
 
 func handle_input(_event: InputEvent): pass
@@ -19,6 +20,9 @@ func process(_delta: float):
 		player.animation.seek(0)
 		max_hold_time.start(0)
 		min_jump_time.start(0)
+	
+	jump_meter.value = percent_timer(max_hold_time) * 100
+	jump_meter.visible = Input.is_action_pressed("jump")
 
 
 func physics_process(_delta: float): pass

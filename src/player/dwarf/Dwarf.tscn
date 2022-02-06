@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/dwarf-head-Sheet.png" type="Texture" id=1]
 [ext_resource path="res://assets/dwarf-body-Sheet.png" type="Texture" id=2]
@@ -225,6 +225,22 @@ tracks/3/keys = {
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 5.5, 7 )
 
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.882353, 0.254902, 0.254902, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.8, 0.8, 0.8, 0 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.478431, 0.129412, 0.227451, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.215686, 0.145098, 0.219608, 1 )
+
 [node name="Dwarf" type="RigidBody2D" groups=["player"]]
 collision_layer = 2
 mode = 2
@@ -295,6 +311,36 @@ cast_to = Vector2( 0, 3 )
 position = Vector2( 5, -2 )
 enabled = true
 cast_to = Vector2( 0, 3 )
+
+[node name="UI" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JumpMeter" type="ProgressBar" parent="UI"]
+visible = false
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -13.0
+margin_right = 40.0
+margin_bottom = -1.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_styles/fg = SubResource( 8 )
+custom_styles/bg = SubResource( 9 )
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StateMachine" parent="." instance=ExtResource( 3 )]
 initial_state = NodePath("Air")
